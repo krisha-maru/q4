@@ -2,8 +2,11 @@ name: Daily Automated Commit
 
 on:
   schedule:
-    - cron: "30 6 * * *"   # runs daily at 06:30 UTC
+    - cron: "25 7 * * *"   # runs daily at 07:25 UTC (no wildcards)
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   auto-commit:
@@ -13,14 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update log file - 23f3000296@ds.study.iitm.ac.in
+      - name: Update file - 23f3000296@ds.study.iitm.ac.in
         run: |
           echo "Automated update on $(date)" >> daily_log.txt
 
-      - name: Commit changes
+      - name: Commit and push changes
         run: |
-          git config --global user.name "DevSync Bot"
-          git config --global user.email "23f3000296@ds.study.iitm.ac.in"
+          git config user.name "DevSync Bot"
+          git config user.email "23f3000296@ds.study.iitm.ac.in"
           git add daily_log.txt
           git commit -m "Daily automated commit"
           git push
